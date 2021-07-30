@@ -2,8 +2,6 @@
 ---
 server:
   port: ${SERVER_PORT:5000}
-  api-base-url: /api/v3/nsi
-  max-http-header-size: 32768
 
 spring:
   jackson:
@@ -11,7 +9,6 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
       WRITE_ENUMS_USING_TO_STRING: true
     deserialization:
-      WRAP_EXCEPTIONS: false
       READ_ENUMS_USING_TO_STRING: true
   application:
     name: reksoft

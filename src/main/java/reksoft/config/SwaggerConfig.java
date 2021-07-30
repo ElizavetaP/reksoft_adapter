@@ -43,7 +43,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
     @Autowired
     private final TypeResolver typeResolver = new TypeResolver();
 
-
     @Bean
     public Docket productApi10() {
         return new Docket(DocumentationType.SWAGGER_2)

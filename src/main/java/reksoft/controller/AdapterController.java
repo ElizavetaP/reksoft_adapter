@@ -1,5 +1,6 @@
 package reksoft.controller;
 
+import org.tempuri.CalculatorSoap;
 import reksoft.dto.CalculatorToInputDto;
 import reksoft.dto.CalculatorToOutputDto;
 import reksoft.exception.CustomErrorResponse;
@@ -12,19 +13,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tempuri.Calculator;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 @RestController
-@Api(tags = "Adapter")
+@Api(tags = "adapter")
 @RequestMapping("/v1.0/adapter")
 @RequiredArgsConstructor
 @Log4j2
@@ -41,16 +40,14 @@ public class AdapterController {
             mediaType = "application/json",
             schema = @Schema(implementation = CustomErrorResponse.class)
     ))
-    public ResponseEntity<CalculatorToOutputDto> addTwoIntegers(
+    public CalculatorToOutputDto addTwoIntegers(
             @ApiParam(value = "DTO for calculation", required = true)
             @RequestBody
-                    CalculatorToInputDto inputValues,
-            HttpServletRequest request) throws MalformedURLException {
-        Calculator client = new Calculator(new URL("http://www.dneonline.com/calculator.asmx?WSDL"));
-        Integer result = client.getCalculatorSoap().add(inputValues.getIntA(),inputValues.getIntB());
-        CalculatorToOutputDto calculatorToOutputDto = new CalculatorToOutputDto(result);
+                    CalculatorToInputDto inputValues) throws MalformedURLException {
 
-        return ResponseEntity.ok().body(calculatorToOutputDto);
+        Integer result = getCalculatorSoap().add(inputValues.getIntA(), inputValues.getIntB());
+
+        return new CalculatorToOutputDto(result);
     }
 
     @ApiOperation(value = "Dividing intA by intB")
@@ -64,16 +61,13 @@ public class AdapterController {
             mediaType = "application/json",
             schema = @Schema(implementation = CustomErrorResponse.class)
     ))
-    public ResponseEntity<CalculatorToOutputDto> divideTwoIntegers(
+    public CalculatorToOutputDto divideTwoIntegers(
             @ApiParam(value = "DTO for calculation", required = true)
             @RequestBody
-                    CalculatorToInputDto inputValues,
-            HttpServletRequest request) throws MalformedURLException {
-        Calculator client = new Calculator(new URL("http://www.dneonline.com/calculator.asmx?WSDL"));
-        Integer result = client.getCalculatorSoap().divide(inputValues.getIntA(),inputValues.getIntB());
-        CalculatorToOutputDto calculatorToOutputDto = new CalculatorToOutputDto(result);
+                    CalculatorToInputDto inputValues) throws MalformedURLException {
+        Integer result = getCalculatorSoap().divide(inputValues.getIntA(), inputValues.getIntB());
 
-        return ResponseEntity.ok().body(calculatorToOutputDto);
+        return new CalculatorToOutputDto(result);
     }
 
     @ApiOperation(value = "Multiply of two numbers")
@@ -87,16 +81,13 @@ public class AdapterController {
             mediaType = "application/json",
             schema = @Schema(implementation = CustomErrorResponse.class)
     ))
-    public ResponseEntity<CalculatorToOutputDto> multiplyTwoIntegers(
+    public CalculatorToOutputDto multiplyTwoIntegers(
             @ApiParam(value = "DTO for calculation", required = true)
             @RequestBody
-                    CalculatorToInputDto inputValues,
-            HttpServletRequest request) throws MalformedURLException {
-        Calculator client = new Calculator(new URL("http://www.dneonline.com/calculator.asmx?WSDL"));
-        Integer result = client.getCalculatorSoap().multiply(inputValues.getIntA(),inputValues.getIntB());
-        CalculatorToOutputDto calculatorToOutputDto = new CalculatorToOutputDto(result);
+                    CalculatorToInputDto inputValues) throws MalformedURLException {
+        Integer result = getCalculatorSoap().multiply(inputValues.getIntA(), inputValues.getIntB());
 
-        return ResponseEntity.ok().body(calculatorToOutputDto);
+        return new CalculatorToOutputDto(result);
     }
 
     @ApiOperation(value = "Subtracting intB from intA")
@@ -110,15 +101,17 @@ public class AdapterController {
             mediaType = "application/json",
             schema = @Schema(implementation = CustomErrorResponse.class)
     ))
-    public ResponseEntity<CalculatorToOutputDto> subtractTwoIntegers(
+    public CalculatorToOutputDto subtractTwoIntegers(
             @ApiParam(value = "DTO for calculation", required = true)
             @RequestBody
-                    CalculatorToInputDto inputValues,
-            HttpServletRequest request) throws MalformedURLException {
-        Calculator client = new Calculator(new URL("http://www.dneonline.com/calculator.asmx?WSDL"));
-        Integer result = client.getCalculatorSoap().subtract(inputValues.getIntA(),inputValues.getIntB());
-        CalculatorToOutputDto calculatorToOutputDto = new CalculatorToOutputDto(result);
+                    CalculatorToInputDto inputValues) throws MalformedURLException {
+        Integer result = getCalculatorSoap().subtract(inputValues.getIntA(), inputValues.getIntB());
 
-        return ResponseEntity.ok().body(calculatorToOutputDto);
+        return new CalculatorToOutputDto(result);
+    }
+
+    private CalculatorSoap getCalculatorSoap() throws MalformedURLException {
+        Calculator client = new Calculator(new URL("http://www.dneonline.com/calculator.asmx?WSDL"));
+        return client.getCalculatorSoap();
     }
 }

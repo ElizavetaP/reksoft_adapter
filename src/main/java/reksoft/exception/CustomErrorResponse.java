@@ -3,9 +3,11 @@ package reksoft.exception;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "Custom error response")
@@ -15,6 +17,4 @@ public class CustomErrorResponse {
     private Long code;
     @ApiModelProperty(value = "Error message", required = true)
     private String message;
-    @ApiModelProperty(value = "Error traceId", required = true)
-    private String traceId;
 }
