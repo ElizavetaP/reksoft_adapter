@@ -17,6 +17,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler({Exception.class})
     public ResponseEntity<?> handleException(Exception ex) {
+        log.error(ex);
         CustomErrorResponse customErrorResponse;
         if (ex.getMessage().contains("OverflowException")) {
             customErrorResponse = new CustomErrorResponse(ErrorCode.CODE_INVALID_INPUT_DATA,
